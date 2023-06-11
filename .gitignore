@@ -3,6 +3,8 @@
 node_modules
 .vscode
 *.iml
+python_project/.env
+data/*
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build

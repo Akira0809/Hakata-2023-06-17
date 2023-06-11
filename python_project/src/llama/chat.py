@@ -14,7 +14,7 @@ def llama_chat(question):
     storage_context = StorageContext.from_defaults(persist_dir=FILE_PATH)
     index = load_index_from_storage(storage_context)
   else:
-    documents = SimpleDirectoryReader('data').load_data()
+    documents = SimpleDirectoryReader('scripts').load_data()
     index = GPTVectorStoreIndex.from_documents(documents)
     index.storage_context.persist(persist_dir="data")
   query_engine = index.as_query_engine()

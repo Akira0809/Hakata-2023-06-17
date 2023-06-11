@@ -4,16 +4,12 @@ from llama_index import StorageContext, load_index_from_storage
 from langchain import OpenAI
 from langchain.chat_models import ChatOpenAI
 from llama_index import (
-    Document,
     GPTVectorStoreIndex,
-    GPTListIndex,
     LLMPredictor,
     ServiceContext,
     SimpleDirectoryReader,
-    PromptHelper,
     StorageContext,
     load_index_from_storage,
-    download_loader,
 )
 
 

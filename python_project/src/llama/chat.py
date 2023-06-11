@@ -14,16 +14,16 @@ from llama_index import (
 
 
 # この辺の設計方針疑問です。
-def get_llm(llm_name, model_temperature, api_key, max_tokens=512):
+def get_llm(model_name, model_temperature, api_key, max_tokens=512):
     os.environ["OPENAI_API_KEY"] = api_key
-    if llm_name == "text-davinci-003":
+    if model_name == "text-davinci-003":
         print("streaming")
         return OpenAI(
-            temperature=model_temperature, model_name=llm_name, max_tokens=max_tokens,streaming=True
+            temperature=model_temperature, model_name=model_name, max_tokens=max_tokens,streaming=True
         )
     else:
         return ChatOpenAI(
-            temperature=model_temperature, model_name=llm_name, max_tokens=max_tokens
+            temperature=model_temperature, model_name=model_name, max_tokens=max_tokens
         )
 
 
@@ -31,11 +31,11 @@ def index_init():
   return None
 
 def llama_chat(question):
-  llm_name = "text-davinci-003"
+  model_name = "text-davinci-003"
   model_temperature = 0
   api_key = os.getenv("OPENAI_API_KEY")  # Replace with your actual OpenAI API k
   FILE_PATH = "data"
-  llm = get_llm(llm_name, model_temperature, api_key)
+  llm = get_llm(model_name, model_temperature, api_key)
   index = None
   service_context = ServiceContext.from_defaults(llm_predictor=LLMPredictor(llm=llm))
   if os.path.isfile(FILE_PATH + "/vector_store.json"):

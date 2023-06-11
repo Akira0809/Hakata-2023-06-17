@@ -3,6 +3,7 @@
 node_modules
 .vscode
 *.iml
+*.pyc
 python_project/.env
 data/*
 __pycache__/

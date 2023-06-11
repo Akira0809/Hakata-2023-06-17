@@ -5,7 +5,7 @@ node_modules
 *.iml
 *.pyc
 python_project/.env
-data/*
+python_project/data/*
 __pycache__/
 myenv
 

@@ -11,8 +11,8 @@ $ docker-compose up -d --build
 ```bash
 $ docker-compose logs
 ```
-4. (http://localhost/)フロントエンドにアクセス
-5. (http://localhost:8080/)バックエンドにアクセス
+4. (http://localhost/) フロントエンドにアクセス
+5. (http://localhost:8080/) バックエンドにアクセス
 6. 作業終了時に確実に以下のコマンドを実行
 ```bash
 $ docker-compose down

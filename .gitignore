@@ -5,6 +5,8 @@ node_modules
 *.iml
 python_project/.env
 data/*
+__pycache__/
+myenv
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build

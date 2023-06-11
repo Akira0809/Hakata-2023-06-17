@@ -5,4 +5,11 @@ def justPrintLlamaChat():
   for response_text in chat.llama_chat(q):
     print(response_text, end="", flush=True)
 
-justPrintLlamaChat()
+def evaluateTest():
+  q = "沖縄の観光産業について概要をおしえて"
+  res ="" 
+  for response_text in chat.llama_chat(q):
+    res = res +response_text
+  print(res)
+
+evaluateTest()

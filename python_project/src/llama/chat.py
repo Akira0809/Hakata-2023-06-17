@@ -14,7 +14,7 @@ from llama_index import (
 
 
 # この辺の設計方針疑問です。
-def get_llm(llm_name, model_temperature, api_key, max_tokens=256):
+def get_llm(llm_name, model_temperature, api_key, max_tokens=512):
     os.environ["OPENAI_API_KEY"] = api_key
     if llm_name == "text-davinci-003":
         print("streaming")

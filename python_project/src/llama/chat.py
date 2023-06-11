@@ -54,16 +54,11 @@ def llama_chat(question):
     streaming=True,
     similarity_top_k=3
   )
-  answer = []
   response = query_engine.query(question)
   for text in response.response_gen:
-    print(text)
-    answer.append(text)
+    yield text
   
-  return answer
   # return response
 
-q = "愛知県の観光産業についての概要をおしえて"
-a =llama_chat(q)
-print(a)
+
 

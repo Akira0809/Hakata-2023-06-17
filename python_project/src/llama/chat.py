@@ -41,14 +41,17 @@ def llama_chat(question):
   if os.path.isfile(FILE_PATH + "/vector_store.json"):
     print("file exist")
     storage_context = StorageContext.from_defaults(persist_dir=FILE_PATH)
-    index = load_index_from_storage(storage_context, service_context = service_context)
+    index = load_index_from_storage(storage_context)
+
   else:
     documents = SimpleDirectoryReader('scripts').load_data()
-    index = GPTVectorStoreIndex.from_documents(documents, service_context=service_context)
-    index.storage_context.persist(persist_dir="../data")
+    index = GPTVectorStoreIndex.from_documents(documents)
+    index.storage_context.persist(persist_dir="data")
+
   query_engine = index.as_query_engine(
     streaming=True,
-    similarity_top_k=3
+    similarity_top_k=3,
+    service_context=service_context
   )
   response = query_engine.query(question)
   for text in response.response_gen:

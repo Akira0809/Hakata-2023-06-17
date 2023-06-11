@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  go_project:
+    build: go_project
+    container_name: go_project
+    tty: true
+    ports:
+      - "8080:8080"
+
+  python_project:
+    build: python_project
+    container_name: python_project
+    tty: true
+    depends_on:
+      - go_project
+
+  frontend_project:
+    build:
+      context: ./frontend_project
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"

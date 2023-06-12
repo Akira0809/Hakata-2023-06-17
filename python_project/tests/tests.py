@@ -1,11 +1,6 @@
 from src.llama import chat
 from llama_index import (
-    TreeIndex, 
-    VectorStoreIndex, 
-    SimpleDirectoryReader, 
-    LLMPredictor, 
     ServiceContext,
-    Response
 )
 from langchain.chat_models import ChatOpenAI
 from langchain.llms import OpenAI
@@ -27,7 +22,6 @@ def evaluateTest():
   llm_predictor_gpt4 = chat.get_llm(model_name="gpt-4",model_temperature=0.5,api_key=api_key)
   service_context_gpt4 = ServiceContext.from_defaults(llm_predictor=llm_predictor_gpt4)
   evaluator_gpt4 = QueryResponseEvaluator(service_context=service_context_gpt4)
-
 
 
 evaluateTest()

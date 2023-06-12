@@ -39,7 +39,6 @@ def llama_chat(question):
   index = None
   service_context = ServiceContext.from_defaults(llm_predictor=LLMPredictor(llm=llm))
   if os.path.isfile(FILE_PATH + "/vector_store.json"):
-    print("file exist")
     storage_context = StorageContext.from_defaults(persist_dir=FILE_PATH)
     index = load_index_from_storage(storage_context)
 

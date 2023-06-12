@@ -13,7 +13,7 @@ llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0,max_tokens=1024))
 service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
 
 # build index
-storage_context = StorageContext.from_defaults(persist_dir="data")
+storage_context = StorageContext.from_defaults(persist_dir="index")
 index = load_index_from_storage(storage_context)
 
 # define evaluator
@@ -24,6 +24,8 @@ query_engine = index.as_query_engine()
 response = query_engine.query("愛知の観光産業の概要をおしえて")
 print(response)
 print("####################")
-print(response.source_nodes[0])
+# print(response.source_nodes[0])
+for res in response.source_nodes:
+    print(res)
 eval_result =  evaluator.evaluate_source_nodes(response)
 print(str(eval_result))

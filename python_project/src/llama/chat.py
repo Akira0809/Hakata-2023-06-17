@@ -34,7 +34,7 @@ def llama_chat(question):
   model_name = "text-davinci-003"
   model_temperature = 0
   api_key = os.getenv("OPENAI_API_KEY")  # Replace with your actual OpenAI API k
-  FILE_PATH = "data"
+  FILE_PATH = "data/index"
   llm = get_llm(model_name, model_temperature, api_key)
   index = None
   service_context = ServiceContext.from_defaults(llm_predictor=LLMPredictor(llm=llm))
@@ -43,9 +43,9 @@ def llama_chat(question):
     index = load_index_from_storage(storage_context)
 
   else:
-    documents = SimpleDirectoryReader('scripts').load_data()
+    documents = SimpleDirectoryReader("data").load_data()
     index = GPTVectorStoreIndex.from_documents(documents)
-    index.storage_context.persist(persist_dir="data")
+    index.storage_context.persist(persist_dir=FILE_PATH)
 
   query_engine = index.as_query_engine(
     streaming=True,

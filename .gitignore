@@ -5,7 +5,7 @@ node_modules
 *.iml
 *.pyc
 python_project/.env
-python_project/data/*
+python_project/data/index
 __pycache__/
 myenv
 hakata_llama.egg-info

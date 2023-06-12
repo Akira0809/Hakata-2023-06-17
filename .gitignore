@@ -8,6 +8,7 @@ python_project/.env
 python_project/data/*
 __pycache__/
 myenv
+hakata_llama.egg-info
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build

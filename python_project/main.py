@@ -14,4 +14,4 @@ def llama_chat_route():
 @app.route('/ping')
 def ping():    return Response('Pong', mimetype='text/plain')
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0',port=5000)

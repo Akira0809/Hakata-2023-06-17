@@ -8,8 +8,10 @@ def llama_chat_route():
     q = "愛知県の観光産業についての概要をおしえて"
     def generate():
         for response_text in chat.llama_chat(q):
-            yield response_text + '' # Adding newline character for readability
+            yield response_text  # Adding newline character for readability
     return Response(generate(), mimetype='text/plain')
 
+@app.route('/ping')
+def ping():    return Response('Pong', mimetype='text/plain')
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')

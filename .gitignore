@@ -4,11 +4,12 @@ node_modules
 .vscode
 *.iml
 *.pyc
-python_project/.env
 python_project/index/
-__pycache__/
+*__pycache__
 myenv
 hakata_llama.egg-info
+*.env
+
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build

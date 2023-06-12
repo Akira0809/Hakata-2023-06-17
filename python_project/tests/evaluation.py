@@ -1,6 +1,5 @@
 from llama_index.evaluation import ResponseEvaluator
 from llama_index import(
-    GPTVectorStoreIndex, 
     LLMPredictor,
     ServiceContext,
     load_index_from_storage,

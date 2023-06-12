@@ -14,6 +14,6 @@ ENV TERM xterm
 COPY . .
 
 # 必要なパッケージのインストール
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && pip install -e .
 
 CMD ["python", "main.py"]

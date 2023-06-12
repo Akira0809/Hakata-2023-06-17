@@ -3,8 +3,12 @@
 node_modules
 .vscode
 *.iml
+*.pyc
 python_project/.env
-data/*
+python_project/index/
+__pycache__/
+myenv
+hakata_llama.egg-info
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build

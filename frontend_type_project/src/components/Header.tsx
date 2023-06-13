@@ -15,9 +15,6 @@ const Header: React.FC = () => {
                     <li>コンタクト</li>
                 </ul>
             </nav>
-            <div className="login-button">
-                <button>ログイン</button>
-            </div>
         </header>
     );
 };

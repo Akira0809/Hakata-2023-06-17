@@ -1,0 +1,22 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+}
+
+.title h2 {
+    margin: 0;
+}
+
+.copyright p {
+    margin: 0;
+}
+
+/* Screen width up to 600px */
+@media (max-width: 600px) {
+    .footer {
+        flex-direction: column;
+        align-items: center;
+    }
+}

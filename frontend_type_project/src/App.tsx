@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './assets/logo.svg';
-import './styles/App.css';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div>
+        <Header />
+
+        <main>
+          <h2>サイト概要</h2>
+          <p>ここにサイトの概要を記述します。</p>
+
+          <select>
+            {Array.from({ length: 47 }, (_, i) => (
+                <option value={i + 1} key={i}>{i + 1}都道府県</option>
+            ))}
+          </select>
+
+          <button>チャットルームへ</button>
+        </main>
+
+        <Footer />
+      </div>
   );
-}
+};
 
 export default App;

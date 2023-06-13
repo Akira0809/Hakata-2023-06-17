@@ -11,7 +11,20 @@ from llama_index import (
     StorageContext,
     load_index_from_storage,
 )
-from src.llama import utils
+
+
+# この辺の設計方針疑問です。
+def get_llm(model_name, model_temperature, api_key, max_tokens=1024):
+    os.environ["OPENAI_API_KEY"] = api_key
+    if model_name == "text-davinci-003":
+        print("streaming")
+        return OpenAI(
+            temperature=model_temperature, model_name=model_name, max_tokens=max_tokens,streaming=True
+        )
+    else:
+        return ChatOpenAI(
+            temperature=model_temperature, model_name=model_name, max_tokens=max_tokens
+        )
 
 
 def index_init():
@@ -23,16 +36,14 @@ def llama_chat(question):
   api_key = os.getenv("OPENAI_API_KEY")  # Replace with your actual OpenAI API k
   DATA_PATH = os.getenv("DATA_PATH")
   INDEX_PATH = os.getenv("INDEX_PATH")
-  llm = utils.get_llm(model_name, model_temperature, api_key)
+  llm = get_llm(model_name, model_temperature, api_key)
   index = None
   service_context = ServiceContext.from_defaults(llm_predictor=LLMPredictor(llm=llm))
   # indexが存在する場合
   if os.path.isfile( INDEX_PATH+ "/vector_store.json"):
-    print("index exists")
     storage_context = StorageContext.from_defaults(persist_dir=INDEX_PATH)
     index = load_index_from_storage(storage_context)
   else:
-    print("index not found")
     documents = SimpleDirectoryReader(DATA_PATH).load_data()
     index = GPTVectorStoreIndex.from_documents(documents)
     index.storage_context.persist(persist_dir=INDEX_PATH)

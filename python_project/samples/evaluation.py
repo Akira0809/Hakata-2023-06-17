@@ -20,7 +20,7 @@ index = load_index_from_storage(storage_context)
 evaluator = ResponseEvaluator(service_context=service_context)
 
 # query index
-q = "愛知の観光産業の概要をおしえて"
+q = "沖縄の観光産業の概要をおしえて"
 print("prompt: " + q)
 query_engine = index.as_query_engine()
 response = query_engine.query(q)

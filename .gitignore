@@ -4,7 +4,7 @@ node_modules
 .vscode
 *.iml
 *.pyc
-python_project/index/
+python_project/index/*
 *__pycache__
 myenv
 hakata_llama.egg-info

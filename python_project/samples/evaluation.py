@@ -20,9 +20,11 @@ index = load_index_from_storage(storage_context)
 evaluator = ResponseEvaluator(service_context=service_context)
 
 # query index
+q = "沖縄の観光産業の概要をおしえて"
+print("prompt: " + q)
 query_engine = index.as_query_engine()
-response = query_engine.query("愛知の観光産業の概要をおしえて")
-print(response)
+response = query_engine.query(q)
+print("ansewer:\n" + response.response)
 print("####################")
 # print(response.source_nodes[0])
 for res in response.source_nodes:

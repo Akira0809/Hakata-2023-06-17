@@ -10,10 +10,10 @@ const Header: React.FC = () => {
             </div>
             <nav className="menu">
                 <ul>
-                    <li>ホーム</li>
-                    <li>概要</li>
-                    <li>規約</li>
-                    <li>コンタクト</li>
+                    <li><Link to="/">ホーム</Link></li>
+                    <li><Link to="/overview">概要</Link></li>
+                    <li><Link to="/termsofservice">規約</Link></li>
+                    <li><Link to="/contact">コンタクト</Link></li>
                 </ul>
             </nav>
             <div className="header-right">
@@ -22,6 +22,5 @@ const Header: React.FC = () => {
         </header>
     );
 };
-
 export default Header;
 

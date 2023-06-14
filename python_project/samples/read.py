@@ -1,5 +1,6 @@
 from llama_index.readers import Document
 from llama_index import GPTVectorStoreIndex, SimpleDirectoryReader
+import os
 
 
 if(os.path.isfile("data/aiti.txt")):

@@ -42,15 +42,36 @@ def LS(data_path):
             dir_list.append(os.path.join(data_path, dir))
     return dir_list
 
-def PrefectureIndexInit(prefectures,path):
+def PrefectureIndexInit(prefecture, path):
+    docs = []
+    index = None
+    prefecture_path = path + "/" + prefecture
+    prefecture_file = "../hakata/data" + "/" + prefecture + ".txt"
+    try:
+        if not os.path.isfile(prefecture_file):
+            raise FileNotFoundError
+        print(prefecture_file)
+        os.makedirs(prefecture_path, exist_ok=True)
+        with open(prefecture_file, "r") as f:
+            text = f.read()
+            docs.append(Document(text))
+        index = GPTVectorStoreIndex.from_documents(docs)
+        index.storage_context.persist(persist_dir=prefecture_path)
+    except FileNotFoundError:
+        print("file not found about this prefecture")
+        # You can add more code here to handle the situation where the file was not found.
+
+
+
+def PrefecturesIndexInit(prefectures,path):
     alldocs = None
     for prefecture in prefectures:
         docs = []
         index = None
         prefecture_path = path + "/" + prefecture
         prefecture_file = "../hakata/data" + "/" + prefecture + ".txt"
-        print(prefecture_file)
         if(os.path.isfile(prefecture_file)):
+            print(prefecture_file)
             os.makedirs(prefecture_path, exist_ok=True)
             with open(prefecture_file, "r") as f:
                 text = f.read()
@@ -60,4 +81,4 @@ def PrefectureIndexInit(prefectures,path):
             index.storage_context.persist(persist_dir=prefecture_path)
 
 if __name__ == '__main__':
-    PrefectureIndexInit(sample_pre,"../data")
+    PrefectureIndexInit("愛媛県","../data")

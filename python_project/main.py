@@ -4,6 +4,8 @@ from src.llama import chat
 app = Flask(__name__)
 
 @app.route('/llama_chat')
+# chat=""
+
 def llama_chat_route():
     q = "愛知県の観光産業についての概要をおしえて"
     def generate():

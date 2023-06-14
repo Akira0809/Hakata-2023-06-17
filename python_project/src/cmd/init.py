@@ -10,8 +10,11 @@ from llama_index import (
     SimpleDirectoryReader,
     load_index_from_storage,
 )
+from llama_index.readers import Document
 import os
 from src.llama import utils
+
+
 prefectures = [
     '未選択', '北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県',
     '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県',
@@ -22,6 +25,9 @@ prefectures = [
     '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'
 ]
 
+sample_pre = [
+    '福岡県','長崎県', '宮崎県', '鹿児島県', '沖縄県'
+]
 
 def IndexInit(data_path, index_path):
     documents = SimpleDirectoryReader(data_path).load_data()
@@ -36,12 +42,22 @@ def LS(data_path):
             dir_list.append(os.path.join(data_path, dir))
     return dir_list
 
-def mkdir(prefectures,path):
+def PrefectureIndexInit(prefectures,path):
+    alldocs = None
     for prefecture in prefectures:
+        docs = []
+        index = None
         prefecture_path = path + "/" + prefecture
-        data_path = "../hakata/data"
-        os.makedirs(prefecture, exist_ok=True)
-        if (data_path)
+        prefecture_file = "../hakata/data" + "/" + prefecture + ".txt"
+        print(prefecture_file)
+        if(os.path.isfile(prefecture_file)):
+            os.makedirs(prefecture_path, exist_ok=True)
+            with open(prefecture_file, "r") as f:
+                text = f.read()
+                docs.append(Document(text))
+                # alldocs.append(Document(text))
+            index = GPTVectorStoreIndex.from_documents(docs)
+            index.storage_context.persist(persist_dir=prefecture_path)
 
 if __name__ == '__main__':
-    mkdir(prefectures,"../data")
+    PrefectureIndexInit(sample_pre,"../data")

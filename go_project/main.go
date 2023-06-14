@@ -5,6 +5,8 @@ import (
 	"hakata0617/internal/pkg"
 	"net/http"
 	"os"
+
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -29,5 +31,9 @@ func main() {
 		handle.Llama_chat(w, r)
 	})
 
-	http.ListenAndServe(":8080", nil)
+	// CORS レスポンスヘッダーの追加
+	c := cors.Default()
+	handler := c.Handler(http.DefaultServeMux)
+
+	http.ListenAndServe(":8080", handler)
 }

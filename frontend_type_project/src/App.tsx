@@ -4,6 +4,8 @@ import HomePage from './pages/HomePage';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ChatRoom from './pages/ChatRoom';
+import OverView from "./pages/OverView";
+import TermsOfService from "./pages/TermsOfService";
 
 
 
@@ -15,8 +17,10 @@ const App: React.FC = () => {
                 <Header/>
                 <main>
                 <Routes>
-                    <Route  path="/index.html" element={<HomePage />}/>
+                    <Route  path="/" element={<HomePage />}/>
                     <Route path="/chatroom" element={<ChatRoom/>}/>
+                    <Route path="/overview" element={<OverView/>}/>
+                    <Route path="/termsofservice" element={<TermsOfService/>}/>
                 </Routes>
                 </main>
                 <Footer/>

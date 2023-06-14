@@ -10,17 +10,20 @@ from langchain.chat_models import ChatOpenAI
 
 # build service context
 llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0,max_tokens=1024))
-service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
+service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor,)
 
 # build index
-storage_context = StorageContext.from_defaults(persist_dir="index")
+prefecture = "愛媛県"
+filepath = "../data/"+  prefecture  
+storage_context = StorageContext.from_defaults(persist_dir=filepath)
 index = load_index_from_storage(storage_context)
 
 # define evaluator
 evaluator = ResponseEvaluator(service_context=service_context)
 
-# query index
-q = "沖縄の観光産業の概要をおしえて"
+# query+ index
+print("reference" + prefecture)
+q = "愛知県の観光産業の概要をおしえて"
 print("prompt: " + q)
 query_engine = index.as_query_engine()
 response = query_engine.query(q)

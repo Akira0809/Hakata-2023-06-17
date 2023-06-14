@@ -9,6 +9,7 @@ python_project/index/*
 myenv
 hakata_llama.egg-info
 *.env
+data
 
 
 packages/react-devtools-core/dist

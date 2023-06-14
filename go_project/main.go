@@ -5,6 +5,8 @@ import (
 	"hakata0617/internal/pkg"
 	"net/http"
 	"os"
+
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -21,11 +23,17 @@ func main() {
 	fmt.Println("Go Test!!")
 	http.HandleFunc("/", pkg.Handler) // ハンドラを登録してウェブページを表示させる
 	http.HandleFunc("/get", pkg.GetAPI)
+	http.HandleFunc("/json", pkg.Mock)
+	http.HandleFunc("/flush", pkg.Flush)
 
 	// HandleFuncには関数を直接渡す代わりに、pkg.MyHandlerのメソッドを呼び出す無名関数を渡します。
 	http.HandleFunc("/chat", func(w http.ResponseWriter, r *http.Request) {
 		handle.Llama_chat(w, r)
 	})
 
-	http.ListenAndServe(":8080", nil)
+	// CORS レスポンスヘッダーの追加
+	c := cors.Default()
+	handler := c.Handler(http.DefaultServeMux)
+
+	http.ListenAndServe(":8080", handler)
 }

@@ -5,7 +5,7 @@ from src.llama import chat
 
 def justPrintLlamaChat(location):
   q = f"{location}の観光産業についての概要をおしえて"
-  for response_text in chat.llama_chat(q):
+  for response_text in chat.LlamaChatUnified(q):
     print(response_text, end="", flush=True)
   return None
 

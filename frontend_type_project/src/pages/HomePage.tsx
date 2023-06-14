@@ -1,4 +1,5 @@
 import React from "react";
+import {useState} from "react";
 import {Link} from "react-router-dom";
 
 const prefectures = [
@@ -12,11 +13,18 @@ const prefectures = [
 ];
 
 const HomePage: React.FC = () =>{
+    const [selectedPrefecture, setSelectedPrefecture] = useState("北海道");
+
+    const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedPrefecture(event.target.value);
+        localStorage.setItem('prefecture', event.target.value);
+    }
+
     return(
         <div>
             <h2>サイト概要</h2>
             <p>ここにサイトの概要を記述します。</p>
-            <select>
+            <select value={selectedPrefecture} onChange={handleChange}>
                 {prefectures.map((prefecture, i) => (
                     <option value={prefecture} key={i}>{prefecture}</option>
                 ))}

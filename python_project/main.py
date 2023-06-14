@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response, request
 from src.llama import chat
 
 app = Flask(__name__)
@@ -18,7 +18,6 @@ def llama_chat_route():
 def Get_Query_Params():
     VAR1 = request.args['chat']
     print(VAR1)
-
 
 
 @app.route('/ping')

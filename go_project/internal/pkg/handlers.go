@@ -19,10 +19,6 @@ type RequestPayload struct {
 	Question   string `json:"question"`
 }
 
-type ResponsePayload struct {
-	Answer string `json:"answer"`
-}
-
 func Handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, World")
 }
@@ -81,9 +77,7 @@ func Mock(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	fmt.Println(chatjson.Prefecture)
-	ans := ResponsePayload{Answer: "answer"}
-	json.NewEncoder(w).Encode(ans)
-	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "Hello, World")
 }
 
 func Flush(w http.ResponseWriter, r *http.Request) {

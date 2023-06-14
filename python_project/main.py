@@ -6,13 +6,13 @@ app = Flask(__name__)
 
 @app.route('/llama_chat')
 def llama_chat_route():
-    q = request.args['question']
-    p = request.args['prefucture']
+    question = request.args['question']
+    prefecuture = request.args['prefucture']
     if(q == ''):
         q = "愛知県の観光産業についての概要をおしえて"
 
     def generate():
-        for response_text in chat.llama_chat(q):
+        for response_text in chat.llama_chat(question+ "での"+prefecuture)):
             yield response_text  # Adding newline character for readability
     return Response(generate(), mimetype='text/plain')
 

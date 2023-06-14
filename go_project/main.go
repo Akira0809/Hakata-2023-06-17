@@ -9,7 +9,7 @@ import (
 
 func main() {
 	//docker内で動作している場合は、pythonのコンテナ名を指定する
-	python_url := ""
+	var python_url string
 	if os.Getenv("IS_DOCKER") == "true" {
 		python_url = "http://python_project:5000/llama_chat"
 	} else {
@@ -21,7 +21,7 @@ func main() {
 	fmt.Println("Go Test!!")
 	http.HandleFunc("/", pkg.Handler) // ハンドラを登録してウェブページを表示させる
 	http.HandleFunc("/get", pkg.GetAPI)
-	http.HandleFunc("/json", pkg.Mock)
+
 	http.HandleFunc("/flush", pkg.Flush)
 
 	// HandleFuncには関数を直接渡す代わりに、pkg.MyHandlerのメソッドを呼び出す無名関数を渡します。

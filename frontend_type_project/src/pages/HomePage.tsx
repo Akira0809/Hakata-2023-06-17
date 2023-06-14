@@ -23,6 +23,21 @@ const HomePage: React.FC = () => {
         localStorage.setItem('prefecture', event.target.value);
     }
 
+
+    const [message, setMessage] = useState<string>('');
+
+    useEffect(() => {
+        const source = new EventSource('http://localhost:8080/flush');
+
+        source.onmessage = function (event) {
+            setMessage(prevState => prevState + event.data);
+        };
+
+        return () => {
+            source.close();
+        };
+    }, []);
+
     return (
         <div>
             <h2>サイト概要</h2>
@@ -33,6 +48,11 @@ const HomePage: React.FC = () => {
                 ))}
             </select>
             <Link to="/chatroom">チャットルームへ</Link>
+
+            <div>
+                {message}
+            </div>
+
         </div>
     )
 }

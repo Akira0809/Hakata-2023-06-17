@@ -18,6 +18,7 @@ def llama_chat_route():
 def Get_Query_Params():
     VAR1 = request.args['chat']
     print(VAR1)
+    return Response(VAR1, mimetype='text/plain')
 
 
 @app.route('/ping')

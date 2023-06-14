@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
 const prefectures = [
@@ -12,7 +12,11 @@ const prefectures = [
 ];
 
 const HomePage: React.FC = () => {
-    const [selectedPrefecture, setSelectedPrefecture] = useState("北海道");
+    const [selectedPrefecture, setSelectedPrefecture] = useState("未選択");
+    useEffect(() => {
+        // コンポーネントがマウントされたときに初期値をローカルストレージにセットします
+        localStorage.setItem('prefecture', selectedPrefecture);
+    }, []);
 
     const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedPrefecture(event.target.value);

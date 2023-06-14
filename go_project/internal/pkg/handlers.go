@@ -6,6 +6,8 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 type MyHandler struct {
@@ -16,6 +18,7 @@ type RequestPayload struct {
 	Prefecture string `json:"prefecture"`
 	Question   string `json:"question"`
 }
+
 type ResponsePayload struct {
 	Answer string `json:"answer"`
 }
@@ -81,4 +84,15 @@ func Mock(w http.ResponseWriter, r *http.Request) {
 	ans := ResponsePayload{Answer: "answer"}
 	json.NewEncoder(w).Encode(ans)
 	w.WriteHeader(http.StatusOK)
+}
+
+func Flush(w http.ResponseWriter, r *http.Request) {
+	for i := 0; i < 5; i++ {
+		w.Write([]byte("hello\n" + strconv.Itoa(i)))
+		w.(http.Flusher).Flush()
+		time.Sleep(1 * time.Second)
+	}
+
+	fmt.Fprintf(w, "hello end\n")
+
 }

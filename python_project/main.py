@@ -1,4 +1,4 @@
-from flask import Flask, Response
+from flask import Flask, Response ,request
 from src.llama import chat
 
 app = Flask(__name__)

@@ -24,7 +24,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "homepage": "/static_goto0617",
+  "homepage": ".",
   "eslintConfig": {
     "extends": [
       "react-app",

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/Header.css';
+import {Link} from "react-router-dom";
 
 const Header: React.FC = () => {
     return (
@@ -15,6 +16,9 @@ const Header: React.FC = () => {
                     <li>コンタクト</li>
                 </ul>
             </nav>
+            <div className="header-right">
+                <Link to="/chatroom">チャットルームへ</Link>
+            </div>
         </header>
     );
 };

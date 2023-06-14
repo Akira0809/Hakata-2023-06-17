@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -9,6 +10,14 @@ import (
 
 type MyHandler struct {
 	Python_url string
+}
+
+type RequestPayload struct {
+	Prefecture string `json:"prefecture"`
+	Question   string `json:"question"`
+}
+type ResponsePayload struct {
+	Answer string `json:"answer"`
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -21,7 +30,14 @@ func GetAPI(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *MyHandler) Llama_chat(w http.ResponseWriter, r *http.Request) {
+	requestpayload := RequestPayload{}
 	// separate handler and create class for url
+	err := json.NewDecoder(r.Body).Decode(&requestpayload)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// must refact
 	resp, err := http.Get(h.Python_url)
 	if err != nil {
 		http.Error(w, "Error from Python API", http.StatusInternalServerError)
@@ -52,4 +68,17 @@ func (h *MyHandler) Llama_chat(w http.ResponseWriter, r *http.Request) {
 			flusher.Flush()
 		}
 	}
+}
+
+func Mock(w http.ResponseWriter, r *http.Request) {
+	chatjson := RequestPayload{}
+	// separate handler and create class for url
+	err := json.NewDecoder(r.Body).Decode(&chatjson)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(chatjson.Prefecture)
+	ans := ResponsePayload{Answer: "answer"}
+	json.NewEncoder(w).Encode(ans)
+	w.WriteHeader(http.StatusOK)
 }

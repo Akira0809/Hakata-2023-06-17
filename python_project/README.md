@@ -22,6 +22,17 @@ curl --no-buffer http://localhost:5000/llama_chat
 
 クエリパラメータ
 
-curl -G --data-urlencode "chat=愛知県の観光産業についての概要をおしえて" http://localhost:5000/params
+curl -G --data-urlencode "chat=愛媛県の観光産業についての概要をおしえて" http://localhost:5000/params
+
+curl --no-buffer -G --data-urlencode "chat=沖縄の観光産業についての概要をおしえて" http://localhost:5000/llama_chat
 
 ```
+
+
+## json 構造体　chat
+
+{
+  prefucture string
+  question string
+}
+

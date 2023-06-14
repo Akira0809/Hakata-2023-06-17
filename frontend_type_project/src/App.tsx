@@ -10,12 +10,12 @@ import ChatRoom from './pages/ChatRoom';
 
 const App: React.FC = () => {
     return (
-        <Router>
+        <Router  basename="/static_goto0617">
             <div>
                 <Header/>
                 <main>
                 <Routes>
-                    <Route  path="/" element={<HomePage />}/>
+                    <Route  path="/index.html" element={<HomePage />}/>
                     <Route path="/chatroom" element={<ChatRoom/>}/>
                 </Routes>
                 </main>

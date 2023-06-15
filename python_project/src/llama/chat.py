@@ -44,6 +44,10 @@ def LlamaChat(prefecture, question):
     llm = utils.get_llm(model_name, model_temperature, api_key)
     service_context = ServiceContext.from_defaults(
         llm_predictor=LLMPredictor(llm=llm))
+    if (index == None):
+        yield f"Error: Index is not found about this prefecture:{prefecture}"
+        return
+
     query_engine = index.as_query_engine(
         streaming=True,
         similarity_top_k=2,

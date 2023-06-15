@@ -9,14 +9,14 @@ interface IMessage {
 const ChatRoom: React.FC = () => {
     const [message, setMessage] = useState("");
     const [chatLog, setChatLog] = useState<IMessage[]>([]);
-    const userName = "John"; // ユーザー名は変更可能な形にすることができます
+    const [loading, setLoading] = useState(false); // New State for loading status
+    const userName = "John";
     const prefecture = localStorage.getItem('prefecture') || '未選択';
 
     const handleSend = async () => {
-        // ユーザーのメッセージをchatLogに追加
+        setLoading(true);
         setChatLog([...chatLog, {sender: 'user', senderName: userName, content: message}]);
 
-        // POSTリクエストを送信
         const requestBody = {
             prefecture,
             question: message
@@ -38,6 +38,7 @@ const ChatRoom: React.FC = () => {
         }
 
         setMessage("");
+        setLoading(false);
     };
 
     return (
@@ -60,7 +61,12 @@ const ChatRoom: React.FC = () => {
                 />
             </div>
             <div className="mt-4">
-                <button onClick={handleSend} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">送信</button>
+                <button
+                    onClick={handleSend}
+                    disabled={loading}
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    {loading ? '...' : '送信'}
+                </button>
             </div>
         </div>
     );

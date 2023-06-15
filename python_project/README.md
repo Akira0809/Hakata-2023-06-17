@@ -16,18 +16,39 @@ docker run  --env-file .env -rm -p 5000:5000 hakata_backend
 
 
 ## commands
+
 ```
 
 curl --no-buffer http://localhost:5000/llama_chat
 
 
-python chat 
+### python chat 
+
+```
 
 curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
   "prefecture": "沖縄県",
   "question": "観光スポットはありますか？"
 }' http://localhost:5000/llama_chat
 
+
+
+
+```
+
+### go_project
+
+```
+
+curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
+  "prefecture": "沖縄県",
+  "question": "観光スポットはありますか？"
+}' http://localhost:8080/mock
+
+curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
+  "prefecture": "愛媛県",
+  "question": "観光スポットはありますか？"
+}' http://localhost:8080/mock
 
 ```
 

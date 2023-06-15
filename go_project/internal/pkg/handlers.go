@@ -1,13 +1,12 @@
 package pkg
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
-	"strconv"
-	"time"
 )
 
 type MyHandler struct {
@@ -73,26 +72,52 @@ func (h *MyHandler) Llama_chat(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func Mock(w http.ResponseWriter, r *http.Request) {
-	chatjson := RequestPayload{}
-	// separate handler and create class for url
-	err := json.NewDecoder(r.Body).Decode(&chatjson)
+func (h *MyHandler) LlamaMock(w http.ResponseWriter, r *http.Request) {
+	var requestPayload RequestPayload
+
+	// Parse request body
+	err := json.NewDecoder(r.Body).Decode(&requestPayload)
 	if err != nil {
-		log.Fatal(err)
+		http.Error(w, "Invalid request", http.StatusBadRequest)
+		return
 	}
-	fmt.Println(chatjson.Prefecture)
-	ans := ResponsePayload{Answer: "answer"}
-	json.NewEncoder(w).Encode(ans)
+
+	// Encode payload to json
+	payloadBytes, err := json.Marshal(requestPayload)
+	if err != nil {
+		http.Error(w, "Error encoding payload", http.StatusInternalServerError)
+		return
+	}
+
+	// Forward the request to Python API
+	resp, err := http.Post(h.Python_url, "application/json", bytes.NewReader(payloadBytes))
+	if err != nil {
+		http.Error(w, "Error from Python API", http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close()
+
+	// Set headers
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-}
 
-func Flush(w http.ResponseWriter, r *http.Request) {
-	for i := 0; i < 5; i++ {
-		w.Write([]byte("hello\n" + strconv.Itoa(i)))
-		w.(http.Flusher).Flush()
-		time.Sleep(1 * time.Second)
+	buf := make([]byte, 1024)
+	for {
+		n, err := resp.Body.Read(buf)
+		if err != nil && err != io.EOF {
+			http.Error(w, "Error reading from Python API", http.StatusInternalServerError)
+			return
+		}
+		if n == 0 {
+			break
+		}
+		if _, err := w.Write(buf[:n]); err != nil {
+			http.Error(w, "Error writing to response", http.StatusInternalServerError)
+			return
+		}
+		// Flush the response writer
+		if flusher, ok := w.(http.Flusher); ok {
+			flusher.Flush()
+		}
 	}
-
-	fmt.Fprintf(w, "hello end\n")
-
 }

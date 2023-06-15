@@ -26,8 +26,9 @@ prefectures = [
 ]
 
 sample_pre = [
-    '福岡県','長崎県', '宮崎県', '鹿児島県', '沖縄県'
+    '福岡県', '長崎県', '宮崎県', '鹿児島県', '沖縄県'
 ]
+
 
 def UnifiedIndexInit():
     index_path = os.getenv("INDEX_PATH") + "/unified"
@@ -37,6 +38,7 @@ def UnifiedIndexInit():
     index = GPTVectorStoreIndex.from_documents(documents)
     index.storage_context.persist(persist_dir=index_path)
     return index
+
 
 def PrefectureIndexInit(prefecture):
     docs = []
@@ -55,19 +57,18 @@ def PrefectureIndexInit(prefecture):
         index = GPTVectorStoreIndex.from_documents(docs)
         index.storage_context.persist(persist_dir=prefecture_path)
     except FileNotFoundError:
-        print("file not found about this prefecture")
+        print(f"file not found about this prefecture on {prefecture_file}")
         # You can add more code here to handle the situation where the file was not found.
 
 
-
-def PrefecturesIndexInit(prefectures,path):
+def PrefecturesIndexInit(prefectures, path):
     alldocs = None
     for prefecture in prefectures:
         docs = []
         index = None
         prefecture_path = path + "/" + prefecture
         prefecture_file = "../hakata/data" + "/" + prefecture + ".txt"
-        if(os.path.isfile(prefecture_file)):
+        if (os.path.isfile(prefecture_file)):
             print(prefecture_file)
             os.makedirs(prefecture_path, exist_ok=True)
             with open(prefecture_file, "r") as f:
@@ -76,8 +77,9 @@ def PrefecturesIndexInit(prefectures,path):
                 # alldocs.append(Document(text))
             index = GPTVectorStoreIndex.from_documents(docs)
             index.storage_context.persist(persist_dir=prefecture_path)
-        
+
         return index
 
+
 if __name__ == '__main__':
-    PrefectureIndexInit("愛媛県","../data")
+    PrefectureIndexInit("愛媛県", "../data")

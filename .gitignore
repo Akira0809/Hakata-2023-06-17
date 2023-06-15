@@ -9,8 +9,8 @@ python_project/index/*
 myenv
 hakata_llama.egg-info
 *.env
-data
-
+index
+hakata
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build

@@ -16,11 +16,27 @@ const ChatRoom: React.FC = () => {
         // ユーザーのメッセージをchatLogに追加
         setChatLog([...chatLog, {sender: 'user', senderName: userName, content: message}]);
 
-        // ここでAPIを呼び出し、結果をchatLogに追加します
-        // この例では、API呼び出しは模擬しています
-        const apiResponse = 'これはChatGPTからの応答です。';
+        // POSTリクエストを送信
+        const requestBody = {
+            prefecture,
+            question: message
+        };
 
-        setChatLog(currentChat => [...currentChat, {sender: 'chatGPT', senderName: 'ChatGPT', content: apiResponse}]);
+        const response = await fetch('https://goto-concierge.com/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (response.ok) {
+            const apiResponse = await response.json();
+            setChatLog(currentChat => [...currentChat, {sender: 'chatGPT', senderName: 'ChatGPT', content: apiResponse.answer}]);
+        } else {
+            console.error(`API request failed with status ${response.status}`);
+        }
+
         setMessage("");
     };
 

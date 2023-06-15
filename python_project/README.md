@@ -24,8 +24,8 @@ curl --no-buffer http://localhost:5000/llama_chat
 python chat 
 
 curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
-  "prefecture": "",
-  "question": "愛知県の観光スポットはありますか？"
+  "prefecture": "沖縄県",
+  "question": "観光スポットはありますか？"
 }' http://localhost:5000/llama_chat
 
 

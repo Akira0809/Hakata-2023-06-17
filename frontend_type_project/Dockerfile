@@ -20,7 +20,7 @@ RUN npm run build
 FROM nginx:stable-alpine as production-stage
 
 # ビルド成果物をNginxにコピー
-COPY --from=build-stage /app/build /usr/share/nginx/htmls
+COPY --from=build-stage /app/build /usr/share/nginx/html
 
 # Nginxの設定
 COPY nginx.conf /etc/nginx/conf.d/default.conf

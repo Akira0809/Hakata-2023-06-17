@@ -16,33 +16,52 @@ const ChatRoom: React.FC = () => {
         // ユーザーのメッセージをchatLogに追加
         setChatLog([...chatLog, {sender: 'user', senderName: userName, content: message}]);
 
-        // ここでAPIを呼び出し、結果をchatLogに追加します
-        // この例では、API呼び出しは模擬しています
-        const apiResponse = 'これはChatGPTからの応答です。';
+        // POSTリクエストを送信
+        const requestBody = {
+            prefecture,
+            question: message
+        };
 
-        setChatLog(currentChat => [...currentChat, {sender: 'chatGPT', senderName: 'ChatGPT', content: apiResponse}]);
+        const response = await fetch('https://goto-concierge.com/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (response.ok) {
+            const apiResponse = await response.json();
+            setChatLog(currentChat => [...currentChat, {sender: 'chatGPT', senderName: 'ChatGPT', content: apiResponse.answer}]);
+        } else {
+            console.error(`API request failed with status ${response.status}`);
+        }
+
         setMessage("");
     };
 
     return (
-        <div>
-            <h1>チャットルーム</h1>
-            <h2>選択された都道府県: {prefecture}</h2>
-            <div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <h1 className="text-2xl font-bold text-gray-900">チャットルーム</h1>
+            <h2 className="mt-2 text-gray-800">選択された都道府県: {prefecture}</h2>
+            <div className="mt-6 space-y-4">
                 {chatLog.map((message, index) => (
-                    <div key={index} className={message.sender}>
+                    <div key={index} className={`p-4 rounded-lg ${message.sender === 'user' ? 'ml-auto bg-blue-500 text-white' : 'mr-auto bg-gray-200 text-gray-800'}`}>
                         <b>{message.senderName}: </b>{message.content}
                     </div>
                 ))}
             </div>
-
-            <input
-                type="text"
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-            />
-
-            <button onClick={handleSend}>送信</button>
+            <div className="mt-6">
+                <input
+                    type="text"
+                    value={message}
+                    onChange={e => setMessage(e.target.value)}
+                    className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+            </div>
+            <div className="mt-4">
+                <button onClick={handleSend} className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">送信</button>
+            </div>
         </div>
     );
 };

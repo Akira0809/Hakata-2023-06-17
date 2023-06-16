@@ -5,15 +5,20 @@ services:
     build: go_project
     container_name: go_project
     tty: true
+    environment:
+      - IS_DOCKER=true
     ports:
       - "8080:8080"
 
   python_project:
-    build: python_project
+    image: lakky1/hakata_python_project
     container_name: python_project
     tty: true
-    depends_on:
-      - go_project
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DATA_PATH=${DATA_PATH}
+      - SITE_DATA_PATH=${SITE_DATA_PATH}
+      - INDEX_PATH=${INDEX_PATH}
 
   frontend_project:
     build:

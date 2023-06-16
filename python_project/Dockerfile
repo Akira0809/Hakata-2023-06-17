@@ -2,7 +2,7 @@
 FROM python:3.9
 USER root
 
-RUN mkdir /python_project
+RUN mkdir /python_project /index
 WORKDIR /python_project
 RUN apt-get update
 RUN apt-get -y install locales && \
@@ -12,10 +12,13 @@ ENV LANGUAGE ja_JP:ja
 ENV LC_ALL ja_JP.UTF-8
 ENV TZ JST-9
 ENV TERM xterm
+COPY ./requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt 
 
 COPY . .
 
+
 # 必要なパッケージのインストール
-RUN pip install --no-cache-dir -r requirements.txt && pip install -e .
+RUN pip install -e .
 
 CMD ["python", "main.py"]

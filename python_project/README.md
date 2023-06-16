@@ -31,9 +31,6 @@ curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
   "question": "観光スポットはありますか？"
 }' http://localhost:5000/llama_chat
 
-
-
-
 ```
 
 ### go_project
@@ -61,6 +58,17 @@ curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
 {
   prefecture string
   question string
-  index string (県名,汎用等)
+  index string (redis用)
 }
 
+
+## evaluation
+
+{
+  correctness:[
+    bool,
+  ]
+  nodes_string:[
+    string,
+  ]
+}

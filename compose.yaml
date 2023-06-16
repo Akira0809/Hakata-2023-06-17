@@ -11,7 +11,7 @@ services:
       - "8080:8080"
 
   python_project:
-    image: lakky1/python_project
+    image: lakky1/hakata_python_project
     container_name: python_project
     tty: true
     environment:

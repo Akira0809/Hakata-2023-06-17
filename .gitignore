@@ -10,6 +10,7 @@ myenv
 hakata_llama.egg-info
 *.env
 index
+hakata_test
 hakata
 
 packages/react-devtools-core/dist

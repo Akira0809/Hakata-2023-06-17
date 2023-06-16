@@ -7,6 +7,8 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"strconv"
+	"time"
 )
 
 type MyHandler struct {
@@ -31,48 +33,12 @@ func GetAPI(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Get request received") // 応答メッセージ
 }
 
-func (h *MyHandler) Llama_chat(w http.ResponseWriter, r *http.Request) {
-	requestpayload := RequestPayload{}
-	// separate handler and create class for url
-	err := json.NewDecoder(r.Body).Decode(&requestpayload)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// must refact
-	resp, err := http.Get(h.Python_url)
-	if err != nil {
-		http.Error(w, "Error from Python API", http.StatusInternalServerError)
-		return
-	}
-	defer resp.Body.Close()
-
-	w.Header().Set("Content-Type", "text/plain")
-	w.WriteHeader(http.StatusOK)
-
-	// Create a buffer to store chunks of the response
-	buf := make([]byte, 1024)
-	for {
-		n, err := resp.Body.Read(buf)
-		if err != nil && err != io.EOF {
-			http.Error(w, "Error reading from Python API", http.StatusInternalServerError)
-			return
-		}
-		if n == 0 {
-			break
-		}
-		if _, err := w.Write(buf[:n]); err != nil {
-			http.Error(w, "Error writing to response", http.StatusInternalServerError)
-			return
-		}
-		// Flush the response writer
-		if flusher, ok := w.(http.Flusher); ok {
-			flusher.Flush()
-		}
-	}
+type Tests struct {
+	ID     int    `json:"id"`
+	Answer string `json:"answer"`
 }
 
-func (h *MyHandler) LlamaMock(w http.ResponseWriter, r *http.Request) {
+func (h *MyHandler) LlamaChat(w http.ResponseWriter, r *http.Request) {
 	var requestPayload RequestPayload
 
 	// Parse request body
@@ -98,10 +64,14 @@ func (h *MyHandler) LlamaMock(w http.ResponseWriter, r *http.Request) {
 	defer resp.Body.Close()
 
 	// Set headers
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
 	buf := make([]byte, 1024)
+	test := Tests{ID: 1234}
+	responseBuffer := ""
+
 	for {
 		n, err := resp.Body.Read(buf)
 		if err != nil && err != io.EOF {
@@ -111,13 +81,36 @@ func (h *MyHandler) LlamaMock(w http.ResponseWriter, r *http.Request) {
 		if n == 0 {
 			break
 		}
-		if _, err := w.Write(buf[:n]); err != nil {
-			http.Error(w, "Error writing to response", http.StatusInternalServerError)
-			return
+
+		responseBuffer += string(buf[:n]) // Add the bytes into a response buffer
+
+		// If the response buffer is above a certain size, send the response and reset the buffer
+		if len(responseBuffer) > 10 {
+			test.Answer = responseBuffer
+
+			// Encode and write the Tests struct as a response
+			if err := json.NewEncoder(w).Encode(test); err != nil {
+				http.Error(w, "Error encoding response", http.StatusInternalServerError)
+				return
+			}
+
+			// Reset the response buffer
+			responseBuffer = ""
 		}
+
 		// Flush the response writer
 		if flusher, ok := w.(http.Flusher); ok {
 			flusher.Flush()
 		}
 	}
+}
+
+func Flush(w http.ResponseWriter, r *http.Request) {
+	for i := 0; i < 5; i++ {
+		w.Write([]byte("hello\n" + strconv.Itoa(i)))
+		w.(http.Flusher).Flush()
+		time.Sleep(1 * time.Second)
+	}
+
+	fmt.Fprintf(w, "hello end\n")
 }

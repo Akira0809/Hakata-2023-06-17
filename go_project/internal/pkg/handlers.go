@@ -64,11 +64,13 @@ func (h *MyHandler) LlamaChat(w http.ResponseWriter, r *http.Request) {
 	defer resp.Body.Close()
 
 	// Set headers
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
 	buf := make([]byte, 1024)
 	test := Tests{ID: 1234}
+	responseBuffer := ""
 
 	for {
 		n, err := resp.Body.Read(buf)
@@ -80,12 +82,20 @@ func (h *MyHandler) LlamaChat(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 
-		test.Answer = string(buf[:n]) // convert the bytes into a string
+		responseBuffer += string(buf[:n]) // Add the bytes into a response buffer
 
-		// encode and write the Tests struct as a response
-		if err := json.NewEncoder(w).Encode(test); err != nil {
-			http.Error(w, "Error encoding response", http.StatusInternalServerError)
-			return
+		// If the response buffer is above a certain size, send the response and reset the buffer
+		if len(responseBuffer) > 10 {
+			test.Answer = responseBuffer
+
+			// Encode and write the Tests struct as a response
+			if err := json.NewEncoder(w).Encode(test); err != nil {
+				http.Error(w, "Error encoding response", http.StatusInternalServerError)
+				return
+			}
+
+			// Reset the response buffer
+			responseBuffer = ""
 		}
 
 		// Flush the response writer

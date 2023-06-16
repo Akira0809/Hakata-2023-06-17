@@ -23,7 +23,16 @@ const StreamingJsonComponent = () => {
         if (result.done) return;
 
         const chunk = decoder.decode(result.value);
-        setResponse((oldResponse) => oldResponse + chunk);
+
+        try {
+          const parsedChunk = JSON.parse(chunk);
+          if (parsedChunk.answer) {
+            setResponse((oldResponse) => oldResponse + parsedChunk.answer);
+          }
+        } catch (error) {
+          console.error('Error parsing chunk:', error);
+        }
+
         reader.read().then(processStream);
       }
 

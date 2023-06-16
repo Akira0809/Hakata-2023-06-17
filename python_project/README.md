@@ -40,6 +40,9 @@ curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
 
 ```
 
+curl  --no-buffer  http://localhost:8080/flush
+
+
 curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
   "prefecture": "沖縄県",
   "question": "観光スポットはありますか？"
@@ -48,7 +51,7 @@ curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
 curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
   "prefecture": "愛媛県",
   "question": "観光スポットはありますか？"
-}' http://localhost:8080/mock
+}' http://localhost:8080/chat
 
 ```
 

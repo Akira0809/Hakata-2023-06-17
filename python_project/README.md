@@ -16,15 +16,39 @@ docker run  --env-file .env -rm -p 5000:5000 hakata_backend
 
 
 ## commands
+
 ```
 
 curl --no-buffer http://localhost:5000/llama_chat
 
-クエリパラメータ
 
-curl -G --data-urlencode "chat=愛媛県の観光産業についての概要をおしえて" http://localhost:5000/params
+### python chat 
 
-curl --no-buffer -G --data-urlencode "chat=沖縄の観光産業についての概要をおしえて" http://localhost:5000/llama_chat
+```
+
+curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
+  "prefecture": "沖縄県",
+  "question": "観光スポットはありますか？"
+}' http://localhost:5000/llama_chat
+
+
+
+
+```
+
+### go_project
+
+```
+
+curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
+  "prefecture": "沖縄県",
+  "question": "観光スポットはありますか？"
+}' http://localhost:8080/mock
+
+curl --no-buffer -X POST -H "Content-Type: application/json" -d '{
+  "prefecture": "愛媛県",
+  "question": "観光スポットはありますか？"
+}' http://localhost:8080/mock
 
 ```
 
@@ -32,7 +56,8 @@ curl --no-buffer -G --data-urlencode "chat=沖縄の観光産業についての�
 ## json 構造体　chat
 
 {
-  prefucture string
+  prefecture string
   question string
+  index string (県名,汎用等)
 }
 

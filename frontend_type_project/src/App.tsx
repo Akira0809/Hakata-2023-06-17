@@ -12,9 +12,11 @@ const App: React.FC = () => {
     return (
         <Router basename="/static_goto0617">
             <div>
+                {/*<Router basename="/static_goto0617"> */}
                 <Header/>
                 <main>
                     <Routes>
+                        {/*<Route path="/index.html" element={<HomePage/>}/>*/}
                         <Route path="/" element={<HomePage/>}/>
                         <Route path="/chatroom" element={<ChatRoom/>}/>
                         <Route path="/overview" element={<OverView/>}/>

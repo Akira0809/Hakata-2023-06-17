@@ -23,12 +23,13 @@ func main() {
 	fmt.Println("Go Test!!")
 	http.HandleFunc("/", pkg.Handler) // ハンドラを登録してウェブページを表示させる
 	http.HandleFunc("/get", pkg.GetAPI)
-	http.HandleFunc("/json", pkg.Mock)
-	http.HandleFunc("/flush", pkg.Flush)
 
 	// HandleFuncには関数を直接渡す代わりに、pkg.MyHandlerのメソッドを呼び出す無名関数を渡します。
 	http.HandleFunc("/chat", func(w http.ResponseWriter, r *http.Request) {
 		handle.Llama_chat(w, r)
+	})
+	http.HandleFunc("/mock", func(w http.ResponseWriter, r *http.Request) {
+		handle.LlamaMock(w, r)
 	})
 
 	// CORS レスポンスヘッダーの追加

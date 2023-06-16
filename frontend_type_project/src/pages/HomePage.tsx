@@ -23,36 +23,16 @@ const HomePage: React.FC = () => {
         localStorage.setItem('prefecture', event.target.value);
     }
 
-
-    const [message, setMessage] = useState<string>('');
-
-    useEffect(() => {
-        const source = new EventSource('http://localhost:8080/flush');
-
-        source.onmessage = function (event) {
-            setMessage(prevState => prevState + event.data);
-        };
-
-        return () => {
-            source.close();
-        };
-    }, []);
-
     return (
-        <div>
-            <h2>サイト概要</h2>
-            <p>ここにサイトの概要を記述します。</p>
-            <select value={selectedPrefecture} onChange={handleChange}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <h2 className="text-2xl font-bold text-gray-900">サイト概要</h2>
+            <p className="mt-4 text-gray-600">ここにサイトの概要を記述します。</p>
+            <select value={selectedPrefecture} onChange={handleChange} className="mt-4 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 {prefectures.map((prefecture, i) => (
                     <option value={prefecture} key={i}>{prefecture}</option>
                 ))}
             </select>
-            <Link to="/chatroom">チャットルームへ</Link>
-
-            <div>
-                {message}
-            </div>
-
+            <Link to="/chatroom" className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">チャットルームへ</Link>
         </div>
     )
 }

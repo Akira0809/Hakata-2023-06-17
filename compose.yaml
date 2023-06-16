@@ -1,6 +1,9 @@
 version: '3.8'
 
 services:
+  redis:
+    image: redis
+
   go_project:
     build: go_project
     container_name: go_project

@@ -33,8 +33,11 @@ sample_pre = [
 def UnifiedIndexInit():
     index_path = os.getenv("INDEX_PATH") + "/unified"
     data_path = os.getenv("DATA_PATH")
+    site_data_path = os.getenv("SITE_DATA_PATH")
     print("unified index init" + data_path)
     documents = SimpleDirectoryReader(data_path).load_data()
+    site_documents = SimpleDirectoryReader(site_data_path).load_data()
+    documents = documents + site_documents
     index = GPTVectorStoreIndex.from_documents(documents)
     index.storage_context.persist(persist_dir=index_path)
     return index
@@ -46,14 +49,18 @@ def PrefectureIndexInit(prefecture):
     prefecture_path = os.getenv("INDEX_PATH") + "/" + prefecture
     # prefecture_file = "../hakata/data" + "/" + prefecture + ".txt"
     prefecture_file = os.getenv("DATA_PATH") + "/" + prefecture + ".txt"
+    file_pathes = [prefecture_file]
+    file_pathes.append(os.getenv("DATA_PATH") + "/" +
+                       prefecture + "_sightseeing.txt")
     try:
-        if not os.path.isfile(prefecture_file):
+        if not os.path.isfile(file_path):
             raise FileNotFoundError
         print(prefecture_file)
         os.makedirs(prefecture_path, exist_ok=True)
-        with open(prefecture_file, "r") as f:
-            text = f.read()
-            docs.append(Document(text))
+        for file_path in file_pathes:
+            with open(file_path, "r") as f:
+                text = f.read()
+                docs.append(Document(text))
         index = GPTVectorStoreIndex.from_documents(docs)
         index.storage_context.persist(persist_dir=prefecture_path)
     except FileNotFoundError:
@@ -82,4 +89,5 @@ def PrefecturesIndexInit(prefectures, path):
 
 
 if __name__ == '__main__':
-    PrefectureIndexInit("愛媛県", "../data")
+    # PrefectureIndexInit("愛媛県", "../data")
+    UnifiedIndexInit()

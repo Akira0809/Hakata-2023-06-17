@@ -12,7 +12,8 @@ from llama_index import (
 )
 from src.llama import utils
 from src.cmd import init
-
+import redis
+import pickle
 
 def InitIndex(prefecture):
     # indexが存在する場合
@@ -38,6 +39,9 @@ def LlamaChat(prefecture, question):
     model_temperature = 0
     # Replace with your actual OpenAI API k
     api_key = os.getenv("OPENAI_API_KEY")
+    redis_path =os.getenv("REDIS_PATH")
+    if(redis_path == None): redis_path="localhost"
+    r = redis.Redis(host=redis_path, port=6379, db=0)
 
     print(prefecture)
     index = InitIndex(prefecture=prefecture)
@@ -54,6 +58,11 @@ def LlamaChat(prefecture, question):
         service_context=service_context
     )
     response = query_engine.query(question)
+
+    response_pickled = pickle.dumps(response)
+
+     # シリアライズしたレスポンスをRedisに保存
+    r.set('1234', response_pickled)
     for text in response.response_gen:
         yield text
 # test llamachatunified

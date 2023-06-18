@@ -1,5 +1,6 @@
 from flask import Flask, Response, request, jsonify
 from src.llama import chat
+from src.llama import evaluation
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -22,6 +23,10 @@ def Get_Query_Params():
     return Response(VAR1, mimetype='text/plain')
 
 
+@app.route('/evaluate',methods =['POST'])
+def evaluate_route():
+    data = request.josn
+    evaluation.Evaluate(data['id'])
 @app.route('/ping')
 def ping(): return Response('Pong', mimetype='text/plain')
 

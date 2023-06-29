@@ -12,7 +12,6 @@ from llama_index import (
 )
 from llama_index.readers import Document
 import os
-from src.llama import utils
 
 
 prefectures = [
@@ -50,8 +49,9 @@ def PrefectureIndexInit(prefecture):
     # prefecture_file = "../hakata/data" + "/" + prefecture + ".txt"
     prefecture_file = os.getenv("DATA_PATH") + "/" + prefecture + ".txt"
     file_pathes = [prefecture_file]
-    file_pathes.append(os.getenv("DATA_PATH") + "/" +
-                       prefecture + "_sightseeing.txt")
+    file_path = prefecture_file
+    # file_pathes.append(os.getenv("DATA_PATH") + "/" +
+    #                    prefecture + "_sightseeing.txt")
     try:
         if not os.path.isfile(file_path):
             raise FileNotFoundError
@@ -89,5 +89,5 @@ def PrefecturesIndexInit(prefectures, path):
 
 
 if __name__ == '__main__':
-    # PrefectureIndexInit("愛媛県", "../data")
-    UnifiedIndexInit()
+    PrefectureIndexInit("愛媛県")
+    # UnifiedIndexInit()

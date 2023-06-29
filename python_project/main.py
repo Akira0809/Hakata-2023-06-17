@@ -1,10 +1,11 @@
 from flask import Flask, Response, request, jsonify
 from src.llama import chat
 from src.llama import evaluation
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
-
+CORS(app)
 
 @app.route('/llama_chat', methods=['POST'])
 def llama_chat_route():
@@ -32,4 +33,4 @@ def ping(): return Response('Pong', mimetype='text/plain')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=4000)

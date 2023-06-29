@@ -16,9 +16,9 @@ import redis
 import pickle
 
 def InitIndex(prefecture):
-    # indexが存在する場合
     index_path = os.getenv("INDEX_PATH")
     prefecture_index_path = index_path + "/" + prefecture
+    print(prefecture_index_path)
     # indexが存在する場合
     if os.path.isfile(prefecture_index_path + "/vector_store.json"):
         print("index exists")
@@ -45,6 +45,7 @@ def LlamaChat(prefecture, question):
 
     print(prefecture)
     index = InitIndex(prefecture=prefecture)
+    print(index)
     llm = utils.get_llm(model_name, model_temperature, api_key)
     service_context = ServiceContext.from_defaults(
         llm_predictor=LLMPredictor(llm=llm))
@@ -59,10 +60,8 @@ def LlamaChat(prefecture, question):
     )
     response = query_engine.query(question)
 
-    response_pickled = pickle.dumps(response)
 
      # シリアライズしたレスポンスをRedisに保存
-    r.set('1234', response_pickled)
     for text in response.response_gen:
         yield text
 # test llamachatunified
